@@ -1,20 +1,83 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# AutoCard
 
-# Run and deploy your AI Studio app
+A modern, AI-powered card editor for creating publication-ready social media content. Write in Markdown, choose from curated themes and fonts, and export beautiful slide cards — no design tools required.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/1NEVAWZBJlGOFPUo1m1N_IO6Hn4R-A_LY
+- **Split-Screen Editor** — Real-time Markdown editor with instant live preview
+- **Slide Card System** — Use `---` separators to split content into individual cards (375x500px, optimized for Instagram / Xiaohongshu)
+- **5 Curated Themes** — Student Notebook, Grid Paper, Summer Breeze, Purple Dream, Editorial
+- **8 Font Families** — Rounded, Serif, Sans, Mincho, Handwritten, Calligraphy, Pixel, Monospace
+- **AI Writing Assistant** — Powered by Google Gemini for content generation, grammar fixes, summarization, and viral rewrites
+- **Social Caption Generator** — Auto-generate captions for Instagram, LinkedIn, Twitter, and Threads
+- **Export Options** — Copy to clipboard, download individual PNGs, or batch export all slides as a ZIP archive
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+| Category | Technology |
+|----------|------------|
+| Framework | React 19 + TypeScript |
+| Build | Vite 6 |
+| Styling | Tailwind CSS |
+| Markdown | react-markdown + remark-gfm |
+| AI | Google Gemini API (`@google/genai`) |
+| Export | html-to-image + JSZip |
 
+## Getting Started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Prerequisites
+
+- Node.js (v18+)
+- A [Google Gemini API key](https://aistudio.google.com/apikey)
+
+### Installation
+
+```bash
+git clone https://github.com/Jeffrey0117/AutoCard.git
+cd AutoCard
+npm install
+```
+
+### Configuration
+
+Create a `.env.local` file in the project root:
+
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+### Production Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Project Structure
+
+```
+AutoCard/
+├── index.html            # Entry point
+├── index.tsx             # React root
+├── App.tsx               # Main application
+├── types.ts              # TypeScript type definitions
+├── constants.ts          # Themes, fonts, default content
+├── components/
+│   ├── Editor.tsx        # Markdown editor pane
+│   ├── Preview.tsx       # Live preview with carousel/grid
+│   ├── Toolbar.tsx       # Navigation and controls
+│   ├── AIPanel.tsx       # AI writing assistant panel
+│   └── SocialCaptionPanel.tsx  # Social caption generator
+└── services/
+    └── geminiService.ts  # Gemini API integration
+```
+
+## License
+
+MIT
