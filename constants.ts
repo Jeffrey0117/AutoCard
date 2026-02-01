@@ -1,0 +1,115 @@
+import { Theme, FontOption } from './types';
+
+export const FONTS: FontOption[] = [
+  { id: 'rounded', name: '圓體 (Cute)', cssValue: 'font-rounded' },
+  { id: 'serif', name: '宋體 (Elegant)', cssValue: 'font-serif' },
+  { id: 'sans', name: '黑體 (Modern)', cssValue: 'font-sans' },
+  { id: 'mincho', name: '明朝體 (Literary)', cssValue: 'font-mincho' },
+  { id: 'hand', name: '手寫 (Hand)', cssValue: 'font-hand' },
+  { id: 'marker', name: '書法 (Marker)', cssValue: 'font-marker' },
+  { id: 'pixel', name: '像素 (Pixel)', cssValue: 'font-pixel' },
+  { id: 'mono', name: '代碼 (Mono)', cssValue: 'font-mono' },
+];
+
+export const INITIAL_MARKDOWN = `# 文字筆記
+# 這樣發！
+
+如何製作高顏值的社群貼文？
+只需簡單幾步，你的內容也能像雜誌一樣精緻。
+
+---
+
+## 1. 善用分頁
+
+太長的文章沒人看。
+使用 \`---\` 符號將你的內容切分成多張卡片。
+
+- **封面**：標題要大，吸引眼球
+- **內頁**：觀點清晰，排版舒適
+- **結尾**：引導互動
+
+---
+
+## 2. 選擇對的主題
+
+不同的內容適合不同的風格：
+
+1. **手寫筆記**：適合學習心得、心情隨筆
+2. **格子紙**：適合乾貨分享、清單
+3. **雜誌風**：適合深度觀點、金句
+
+> "排版是內容的衣裳。" 
+
+---
+
+## 3. 快速出圖
+
+不需要複雜的設計軟體。
+在這裡寫好文字，點擊右上角的複製或下載，直接發布到 Instagram 或小紅書。
+
+**現在就試試看吧！**
+`;
+
+export const THEMES: Theme[] = [
+  {
+    id: 'notebook',
+    name: 'Student Notebook',
+    defaultFontFamily: 'hand',
+    headingColor: 'text-slate-800',
+    bodyColor: 'text-slate-700',
+    backgroundColor: '#fdfbf7',
+    slideClassName: 'bg-notebook border border-slate-200/60 shadow-sm relative',
+    accentColor: 'border-yellow-200',
+    proseStyle: 'prose-slate prose-xl',
+    contentAlign: 'start',
+  },
+  {
+    id: 'grid',
+    name: 'Grid Paper',
+    defaultFontFamily: 'rounded',
+    headingColor: 'text-slate-900',
+    bodyColor: 'text-slate-600',
+    backgroundColor: '#ffffff',
+    slideClassName: 'bg-grid-paper border border-slate-200 shadow-sm relative',
+    accentColor: 'border-blue-400',
+    proseStyle: 'prose-slate prose-lg',
+    contentAlign: 'center',
+  },
+  {
+    id: 'summer',
+    name: 'Summer Breeze',
+    defaultFontFamily: 'serif',
+    headingColor: 'text-blue-900',
+    bodyColor: 'text-blue-800/80',
+    backgroundColor: '#eff6ff',
+    slideClassName: 'bg-gradient-to-b from-blue-100 to-white border border-blue-100 shadow-sm relative overflow-hidden',
+    accentColor: 'border-blue-300',
+    proseStyle: 'prose-blue prose-lg',
+    contentAlign: 'center',
+  },
+  {
+    id: 'purple-dream',
+    name: 'Purple Dream',
+    defaultFontFamily: 'marker',
+    headingColor: 'text-white',
+    bodyColor: 'text-purple-100',
+    backgroundColor: '#581c87',
+    slideClassName: 'bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-lg relative border-none',
+    accentColor: 'border-purple-400',
+    proseStyle: 'prose-invert prose-xl',
+    isDark: true,
+    contentAlign: 'center',
+  },
+  {
+    id: 'editorial',
+    name: 'Editorial',
+    defaultFontFamily: 'mincho',
+    headingColor: 'text-slate-900',
+    bodyColor: 'text-slate-800',
+    backgroundColor: '#ffffff',
+    slideClassName: 'bg-white border-t-[12px] border-slate-900 shadow-md relative px-8',
+    accentColor: 'border-slate-900',
+    proseStyle: 'prose-xl prose-slate',
+    contentAlign: 'center',
+  },
+];

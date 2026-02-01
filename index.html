@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TypeCraft - Aesthetic Editor</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#6366f1', // Indigo 500
+              secondary: '#ec4899', // Pink 500
+            },
+            fontFamily: {
+              sans: ['"Noto Sans TC"', 'Inter', 'sans-serif'],
+              serif: ['"Noto Serif TC"', 'Merriweather', 'serif'],
+              mono: ['Fira Code', 'monospace'],
+              hand: ['"Ma Shan Zheng"', 'cursive'],
+              marker: ['"Zhi Mang Xing"', 'cursive'],
+              rounded: ['"Zen Maru Gothic"', 'sans-serif'],
+              mincho: ['"Shippori Mincho"', 'serif'],
+              pixel: ['"DotGothic16"', 'sans-serif'],
+            },
+            typography: (theme) => ({
+              DEFAULT: {
+                css: {
+                  h1: {
+                    fontWeight: '900',
+                  },
+                  code: {
+                    fontWeight: '500',
+                  }
+                },
+              },
+            }),
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Fira+Code&family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;500;700&family=DotGothic16&display=swap" rel="stylesheet">
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
+    "remark-gfm": "https://esm.sh/remark-gfm@^4.0.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "html-to-image": "https://esm.sh/html-to-image@^1.11.11",
+    "jszip": "https://esm.sh/jszip@^3.10.1"
+  }
+}
+</script>
+    <style>
+      /* Custom scrollbar styling */
+      .scrollbar-styled::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+      }
+      .scrollbar-styled::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+      }
+      .scrollbar-styled::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .scrollbar-styled::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      
+      /* Notebook Lines Pattern */
+      .bg-notebook {
+        background-color: #fdfbf7;
+        background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+        background-size: 100% 2rem;
+      }
+
+      /* Grid Pattern */
+      .bg-grid-paper {
+        background-color: #ffffff;
+        background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      
+      /* Summer Noise Texture */
+      .bg-summer {
+         background-color: #e0f2fe;
+         background-image: 
+            radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+            radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+            radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+         background-size: 100% 100%;
+      }
+    </style>
+</head>
+  <body class="bg-slate-50 text-slate-900 h-screen overflow-hidden">
+    <div id="root" class="h-full"></div>
+  </body>
+</html>
