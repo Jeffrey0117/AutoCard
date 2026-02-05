@@ -1,14 +1,12 @@
 import React from 'react';
 import { Layers } from 'lucide-react';
-import { FontOption } from '../types';
 
 interface EditorProps {
   value: string;
   onChange: (value: string) => void;
-  fontOption: FontOption;
 }
 
-const Editor: React.FC<EditorProps> = ({ value, onChange, fontOption }) => {
+const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   
   const insertPageBreak = () => {
     const textarea = document.querySelector('textarea');
@@ -39,12 +37,7 @@ const Editor: React.FC<EditorProps> = ({ value, onChange, fontOption }) => {
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`
-            w-full h-full p-8 resize-none outline-none 
-            bg-transparent text-slate-700 placeholder-slate-400
-            leading-relaxed
-            ${fontOption.cssValue}
-          `}
+          className="w-full h-full p-6 resize-none outline-none bg-transparent text-slate-700 placeholder-slate-400 leading-relaxed font-mono text-sm"
           placeholder="開始輸入... 使用 '---' 分隔頁面"
           spellCheck={false}
         />

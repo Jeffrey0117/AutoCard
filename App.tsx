@@ -3,16 +3,25 @@ import { THEMES, INITIAL_MARKDOWN, FONTS } from './constants';
 import Editor from './components/Editor';
 import Preview from './components/Preview';
 import Toolbar from './components/Toolbar';
+import AIGenerator from './components/AIGenerator';
 import AIPanel from './components/AIPanel';
 import SocialCaptionPanel from './components/SocialCaptionPanel';
 import { PanelLeft, PanelRight } from 'lucide-react';
 import { FontFamily } from './types';
 
 const App: React.FC = () => {
-  const [markdown, setMarkdown] = useState(INITIAL_MARKDOWN);
-  const [currentThemeId, setCurrentThemeId] = useState(THEMES[0].id);
-  const [currentFontId, setCurrentFontId] = useState<FontFamily>(THEMES[0].defaultFontFamily);
-  const [projectTitle, setProjectTitle] = useState('AutoCard');
+  const [markdown, setMarkdown] = useState(() => {
+    return localStorage.getItem('autocard_markdown') || INITIAL_MARKDOWN;
+  });
+  const [currentThemeId, setCurrentThemeId] = useState(() => {
+    return localStorage.getItem('autocard_theme') || THEMES[0].id;
+  });
+  const [currentFontId, setCurrentFontId] = useState<FontFamily>(() => {
+    return (localStorage.getItem('autocard_font') as FontFamily) || THEMES[0].defaultFontFamily;
+  });
+  const [projectTitle, setProjectTitle] = useState(() => {
+    return localStorage.getItem('autocard_title') || 'AutoCard';
+  });
   
   const [showAI, setShowAI] = useState(false);
   const [showSocial, setShowSocial] = useState(false); // New state
@@ -24,10 +33,22 @@ const App: React.FC = () => {
   const currentTheme = THEMES.find(t => t.id === currentThemeId) || THEMES[0];
   const currentFont = FONTS.find(f => f.id === currentFontId) || FONTS[0];
 
-  // When theme changes, reset to that theme's default font
+  // 保存設定到 localStorage
   useEffect(() => {
-    setCurrentFontId(currentTheme.defaultFontFamily);
+    localStorage.setItem('autocard_theme', currentThemeId);
   }, [currentThemeId]);
+
+  useEffect(() => {
+    localStorage.setItem('autocard_font', currentFontId);
+  }, [currentFontId]);
+
+  useEffect(() => {
+    localStorage.setItem('autocard_title', projectTitle);
+  }, [projectTitle]);
+
+  useEffect(() => {
+    localStorage.setItem('autocard_markdown', markdown);
+  }, [markdown]);
 
   // Handle responsive layout
   useEffect(() => {
@@ -65,7 +86,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
-      <Toolbar 
+      <Toolbar
         themes={THEMES}
         currentThemeId={currentThemeId}
         currentFontId={currentFontId}
@@ -78,7 +99,9 @@ const App: React.FC = () => {
         onCopy={handleCopy}
       />
 
-      <main className="flex-1 flex flex-col overflow-hidden relative">
+      <AIGenerator onGenerate={setMarkdown} />
+
+      <main className="flex-1 flex flex-col overflow-hidden relative px-12 lg:px-32 xl:px-48 2xl:px-64 bg-slate-100">
         {/* Mobile Toggle */}
         {isMobile && (
           <button
@@ -92,17 +115,16 @@ const App: React.FC = () => {
         {/* Editor Pane - 上方 */}
         {showEditor && (
           <div className={`
-            flex flex-col min-w-0 bg-white border-b border-slate-200 transition-all duration-300
+            flex flex-col min-w-0 bg-white rounded-t-xl shadow-sm border border-slate-200 border-b-0 transition-all duration-300 mt-4
             ${isMobile ? 'flex-1' : 'h-[60%]'}
           `}>
-             <div className="px-6 py-2 text-xs font-bold text-slate-400 tracking-widest uppercase border-b border-slate-100 flex justify-between items-center">
+             <div className="px-6 py-2.5 text-xs font-medium text-slate-500 tracking-wide border-b border-slate-100 flex justify-between items-center">
                <span>編輯器</span>
-               <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500">Markdown</span>
+               <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-400">Markdown</span>
              </div>
              <Editor
                 value={markdown}
                 onChange={setMarkdown}
-                fontOption={currentFont}
              />
           </div>
         )}
@@ -110,7 +132,7 @@ const App: React.FC = () => {
         {/* Preview Pane - 下方 */}
         {showPreview && (
           <div className={`
-            flex flex-col min-w-0 bg-slate-100/80 transition-all duration-300
+            flex flex-col min-w-0 bg-white rounded-b-xl shadow-sm border border-slate-200 border-t-0 transition-all duration-300 mb-4
             ${isMobile ? 'flex-1' : 'h-[40%]'}
           `}>
              <Preview

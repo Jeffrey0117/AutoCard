@@ -17,17 +17,17 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
 
   const handleAction = async (action: AIServiceAction) => {
     if (!currentText && action !== AIServiceAction.EXPAND) {
-        setError("Please enter some text in the editor first.");
+        setError("請先在編輯器中輸入一些文字。");
         return;
     }
-    
+
     setIsLoading(true);
     setError(null);
     try {
       const result = await generateAIContent(currentText, action);
       setGeneratedText(result);
     } catch (err) {
-      setError("Failed to generate content. Please try again.");
+      setError("生成失敗，請重試。");
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +41,7 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
       const result = await generateFromTopic(topic);
       setGeneratedText(result);
     } catch (err) {
-      setError("Failed to generate content.");
+      setError("生成失敗。");
     } finally {
       setIsLoading(false);
     }
@@ -59,7 +59,7 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-indigo-500" />
-          AI Assistant
+          AI 助手
         </h3>
         <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
           <X className="w-5 h-5" />
@@ -74,18 +74,18 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
 
       {!generatedText ? (
         <div className="space-y-4">
-           {/* Generator Section */}
+           {/* 主題生成區 */}
            <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Start from Scratch</label>
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">從頭開始</label>
             <div className="flex gap-2">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                placeholder="Enter a topic (e.g. 'Coffee Brewing')" 
+                placeholder="輸入主題（例如：咖啡沖泡技巧）"
                 className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
               />
-              <button 
+              <button
                 onClick={handleTopicGenerate}
                 disabled={isLoading || !topic.trim()}
                 className="bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
@@ -97,21 +97,21 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
 
            <div className="border-t border-slate-100 my-4"></div>
 
-           {/* Refiner Section */}
+           {/* 優化現有文字區 */}
            <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Refine Existing Text</label>
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">優化現有文字</label>
             <div className="grid grid-cols-2 gap-2">
                 <button disabled={isLoading} onClick={() => handleAction(AIServiceAction.IMPROVE)} className="p-2 text-sm text-left bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 rounded-lg transition-colors border border-slate-200">
-                    ✨ Improve Writing
+                    ✨ 改善文筆
                 </button>
                 <button disabled={isLoading} onClick={() => handleAction(AIServiceAction.FIX_GRAMMAR)} className="p-2 text-sm text-left bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 rounded-lg transition-colors border border-slate-200">
-                    📝 Fix Grammar
+                    📝 修正語法
                 </button>
                 <button disabled={isLoading} onClick={() => handleAction(AIServiceAction.MAKE_SOCIAL)} className="p-2 text-sm text-left bg-slate-50 hover:bg-pink-50 text-slate-700 hover:text-pink-700 rounded-lg transition-colors border border-slate-200">
-                    📱 Make Viral
+                    📱 社群風格
                 </button>
                 <button disabled={isLoading} onClick={() => handleAction(AIServiceAction.SUMMARIZE)} className="p-2 text-sm text-left bg-slate-50 hover:bg-orange-50 text-slate-700 hover:text-orange-700 rounded-lg transition-colors border border-slate-200">
-                    🤏 Summarize
+                    🤏 摘要精簡
                 </button>
             </div>
            </div>
@@ -122,17 +122,17 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
              <div className="whitespace-pre-wrap">{generatedText}</div>
           </div>
           <div className="flex gap-2">
-            <button 
-              onClick={() => setGeneratedText(null)} 
+            <button
+              onClick={() => setGeneratedText(null)}
               className="flex-1 px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg text-sm"
             >
-              Discard
+              放棄
             </button>
-            <button 
-              onClick={applyChanges} 
+            <button
+              onClick={applyChanges}
               className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 flex items-center justify-center gap-2"
             >
-              <Check className="w-4 h-4" /> Apply
+              <Check className="w-4 h-4" /> 套用
             </button>
           </div>
         </div>

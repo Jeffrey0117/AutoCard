@@ -88,9 +88,6 @@ const Slide: React.FC<{
     };
 
     const isCover = index === 0;
-    const verticalAlignClass = isCover || theme.contentAlign === 'center' 
-        ? 'justify-center' 
-        : 'justify-start pt-4';
 
     return (
         <div className="flex flex-col gap-1.5 group relative">
@@ -103,37 +100,31 @@ const Slide: React.FC<{
                     flex flex-col overflow-hidden
                     ${theme.slideClassName}
                 `}
-                style={{ 
-                    backgroundColor: theme.backgroundColor.startsWith('#') ? theme.backgroundColor : undefined 
+                style={{
+                    backgroundColor: theme.backgroundColor.startsWith('#') ? theme.backgroundColor : undefined
                 }}
             >
                 {theme.id === 'notebook' && (
-                    <div className="absolute top-0 left-8 bottom-0 w-px bg-red-200/50 z-0"></div>
+                    <div className="absolute top-0 left-6 bottom-0 w-px bg-red-300/40 z-0"></div>
                 )}
                 {theme.id === 'grid' && (
-                    <div className="absolute top-4 right-4 w-12 h-4 bg-yellow-200/50 rotate-[-5deg] z-0"></div>
+                    <div className="absolute top-3 right-3 w-8 h-3 bg-yellow-300/60 rotate-[-5deg] z-0 rounded-sm"></div>
                 )}
                 {theme.id === 'summer' && (
-                     <>
-                        <div className="absolute top-0 left-0 w-full h-2 bg-blue-500/10"></div>
-                        <div className="absolute bottom-0 right-0 w-32 h-32 bg-blue-400/10 rounded-full blur-2xl -mr-10 -mb-10 pointer-events-none"></div>
-                     </>
+                    <div className="absolute bottom-0 right-0 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl -mr-8 -mb-8 pointer-events-none"></div>
                 )}
 
                 <div
                     ref={contentRef}
                     className={`
-                        relative z-10 p-3 h-full flex flex-col
-                        ${verticalAlignClass}
-                        ${isCover ? 'items-center text-center' : 'text-left'}
+                        relative z-10 px-3 h-full flex flex-col overflow-hidden
+                        ${isCover ? 'justify-center items-center text-center' : 'pt-10 pb-2 justify-start text-left'}
                     `}
                 >
                     <div className={`
-                        prose prose-xs max-w-none w-full text-[11px]
+                        prose prose-xs max-w-none w-full text-[10px] leading-relaxed
                         ${theme.proseStyle}
                         ${fontOption.cssValue}
-                        ${isCover ? 'prose-headings:mb-2 prose-p:text-xs' : ''}
-                        ${theme.id === 'notebook' ? 'leading-relaxed' : ''}
                     `}>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
@@ -142,7 +133,7 @@ const Slide: React.FC<{
                                     <h1
                                         className={`
                                             ${theme.headingColor}
-                                            ${isCover ? 'text-lg font-black !mb-2 !mt-0 leading-tight' : 'text-base font-bold mt-0 mb-2'}
+                                            ${isCover ? 'text-base font-black mb-1 leading-tight' : 'text-sm font-bold mt-0 mb-2 leading-snug'}
                                             ${theme.id === 'notebook' ? 'font-marker' : ''}
                                         `}
                                         {...props}
@@ -152,30 +143,37 @@ const Slide: React.FC<{
                                     <h2
                                         className={`
                                             ${theme.headingColor}
-                                            text-sm font-bold mt-0 mb-1.5
-                                            ${theme.id === 'editorial' && !isCover ? 'border-l-2 border-slate-900 pl-2 py-0.5' : ''}
-                                            ${theme.id === 'grid' ? 'bg-yellow-100 inline px-1 box-decoration-clone leading-snug' : ''}
+                                            text-xs font-semibold mt-2 mb-1
+                                            ${theme.id === 'editorial' ? 'border-l-2 border-slate-900 pl-1.5' : ''}
+                                            ${theme.id === 'grid' ? 'bg-yellow-100/80 px-1 rounded' : ''}
                                         `}
                                         {...props}
                                     />
                                 ),
                                 p: ({node, ...props}) => (
-                                    <p className={`${theme.bodyColor} ${theme.id === 'notebook' ? 'leading-[2rem] my-0' : 'my-4'}`} {...props} />
+                                    <p className={`${theme.bodyColor} my-1.5 leading-relaxed`} {...props} />
                                 ),
                                 strong: ({node, ...props}) => (
                                     <strong className={`
-                                        ${theme.id === 'notebook' ? 'bg-yellow-200/40 px-1 box-decoration-clone' : ''} 
+                                        font-semibold
+                                        ${theme.id === 'notebook' ? 'bg-yellow-200/50 px-0.5' : ''}
                                         ${theme.id === 'summer' ? 'text-blue-600' : ''}
                                     `} {...props} />
                                 ),
                                 blockquote: ({node, ...props}) => (
                                     <blockquote className={`
-                                        not-italic border-none bg-transparent p-0 my-6
-                                        ${theme.id === 'purple-dream' ? 'text-3xl font-marker opacity-90 text-center leading-relaxed' : 'border-l-4 pl-6 opacity-80 italic'}
+                                        my-2 pl-2 border-l-2 opacity-80 italic text-[9px]
+                                        ${theme.isDark ? 'border-white/30' : 'border-slate-300'}
                                     `} {...props} />
                                 ),
                                 li: ({node, ...props}) => (
-                                    <li className={`${theme.bodyColor} ${theme.id === 'notebook' ? 'leading-[2rem]' : 'my-2'}`} {...props} />
+                                    <li className={`${theme.bodyColor} my-0.5 leading-relaxed`} {...props} />
+                                ),
+                                ul: ({node, ...props}) => (
+                                    <ul className="my-1.5 pl-3 list-disc" {...props} />
+                                ),
+                                ol: ({node, ...props}) => (
+                                    <ol className="my-1.5 pl-3 list-decimal" {...props} />
                                 ),
                                 // --- IMAGE HANDLING ---
                                 img: ({node, ...props}) => (
@@ -184,9 +182,9 @@ const Slide: React.FC<{
                                         crossOrigin="anonymous"
                                         referrerPolicy="no-referrer"
                                         className={`
-                                            rounded shadow-sm my-1.5 max-h-[80px] w-auto mx-auto object-cover
-                                            ${theme.id === 'grid' ? 'border border-slate-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : ''}
-                                            ${theme.id === 'notebook' ? 'rotate-1 border-2 border-white shadow-md' : ''}
+                                            rounded shadow-sm my-1.5 max-h-[60px] w-auto object-cover
+                                            ${theme.id === 'grid' ? 'border border-slate-400' : ''}
+                                            ${theme.id === 'notebook' ? 'border border-white shadow' : ''}
                                         `}
                                     />
                                 ),
@@ -232,22 +230,19 @@ const Slide: React.FC<{
                                 code: ({node, className, children, ...props}) => {
                                     const match = /language-(\w+)/.exec(className || '');
                                     const isInline = !match && !String(children).includes('\n');
-                                    
+
                                     if (isInline) {
                                         return (
                                             <code className={`
-                                                ${theme.id === 'purple-dream' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-800'} 
-                                                rounded px-1.5 py-0.5 text-[0.85em] font-mono font-medium mx-0.5
+                                                ${theme.id === 'purple-dream' ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-100'}
+                                                rounded px-1 py-0.5 text-[8px] font-mono
                                             `} {...props}>
                                                 {children}
                                             </code>
                                         );
                                     }
                                     return (
-                                        <pre className={`
-                                            ${theme.id === 'grid' ? 'bg-slate-900 text-slate-100' : 'bg-slate-800 text-slate-100'}
-                                            rounded-lg p-4 my-4 overflow-x-auto shadow-md text-sm font-mono border border-slate-700/50
-                                        `}>
+                                        <pre className="bg-slate-800 text-slate-100 rounded p-2 my-1.5 text-[7px] font-mono leading-relaxed whitespace-pre-wrap break-all">
                                             <code className={className} {...props}>
                                                 {children}
                                             </code>
@@ -263,19 +258,15 @@ const Slide: React.FC<{
 
                 {/* Overflow Warning Indicator */}
                 {isOverflowing && (
-                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-red-100/90 to-transparent z-20 pointer-events-none flex items-end justify-center pb-1">
-                        <span className="text-[7px] text-red-500 font-bold uppercase tracking-wider bg-white/80 px-1.5 py-0.5 rounded-full">Overflow</span>
-                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-red-200/80 to-transparent z-20 pointer-events-none" />
                 )}
 
                 <div className={`
-                    absolute bottom-1.5 left-3 right-3
-                    flex justify-between items-center text-[7px] tracking-wider uppercase border-t pt-1.5
-                    ${theme.isDark ? 'border-white/20 text-white/40' : 'border-black/5 text-black/30'}
+                    absolute bottom-0.5 right-2 text-[5px] tracking-wide
+                    ${theme.isDark ? 'text-white/20' : 'text-black/15'}
                     z-10
                 `}>
-                    <span>@{theme.name}</span>
-                    <span>{index + 1} / {total}</span>
+                    {index + 1}/{total}
                 </div>
             </div>
 
@@ -352,8 +343,8 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
   };
 
   return (
-    <div className="h-full w-full bg-slate-100/50 flex flex-col">
-       <div className="px-6 py-2 bg-white/50 backdrop-blur border-b border-slate-200/50 flex justify-between items-center">
+    <div className="h-full w-full bg-slate-50 flex flex-col">
+       <div className="px-6 py-2 border-b border-slate-100 flex justify-between items-center">
           <div className="text-xs text-slate-500 font-medium">
             {slides.length} 頁 • {theme.name}
           </div>
