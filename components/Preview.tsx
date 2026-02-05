@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'; // Import GFM for tables
 import { Theme, FontOption } from '../types';
-import { Download, Copy, Check, Loader2, LayoutGrid, LayoutTemplate, FolderArchive } from 'lucide-react';
+import { Download, Copy, Check, Loader2, FolderArchive } from 'lucide-react';
 import { toPng, toBlob } from 'html-to-image';
 import JSZip from 'jszip';
 
@@ -65,7 +65,7 @@ const Slide: React.FC<{
         } catch (e) {
             console.error('Copy failed:', e);
             setStatus('idle');
-            alert("Copy failed. If using external images, try 'Download' instead, or ensure the image allows CORS.");
+            alert("複製失敗。如使用外部圖片，請改用「下載」或確認圖片允許跨域存取。");
         }
     };
 
@@ -83,7 +83,7 @@ const Slide: React.FC<{
         } catch (e) {
             console.error('Download failed:', e);
             setStatus('idle');
-            alert("Download failed. The image server might be blocking downloads. Try taking a screenshot manually if this persists.");
+            alert("下載失敗。圖片伺服器可能阻擋下載，請嘗試手動截圖。");
         }
     };
 
@@ -93,12 +93,12 @@ const Slide: React.FC<{
         : 'justify-start pt-4';
 
     return (
-        <div className="flex flex-col gap-2 group relative">
-             <div 
+        <div className="flex flex-col gap-1.5 group relative">
+             <div
                 ref={slideRef}
                 id={id}
                 className={`
-                    w-[375px] h-[500px] shrink-0 
+                    w-[195px] h-[260px] shrink-0
                     transition-all duration-300 ease-in-out
                     flex flex-col overflow-hidden
                     ${theme.slideClassName}
@@ -120,43 +120,43 @@ const Slide: React.FC<{
                      </>
                 )}
 
-                <div 
+                <div
                     ref={contentRef}
                     className={`
-                        relative z-10 p-8 h-full flex flex-col
+                        relative z-10 p-3 h-full flex flex-col
                         ${verticalAlignClass}
                         ${isCover ? 'items-center text-center' : 'text-left'}
                     `}
                 >
                     <div className={`
-                        prose max-w-none w-full
-                        ${theme.proseStyle} 
+                        prose prose-xs max-w-none w-full text-[11px]
+                        ${theme.proseStyle}
                         ${fontOption.cssValue}
-                        ${isCover ? 'prose-headings:mb-6 prose-p:text-xl' : ''}
-                        ${theme.id === 'notebook' ? 'leading-[2rem]' : ''}
+                        ${isCover ? 'prose-headings:mb-2 prose-p:text-xs' : ''}
+                        ${theme.id === 'notebook' ? 'leading-relaxed' : ''}
                     `}>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
                                 h1: ({node, ...props}) => (
-                                    <h1 
+                                    <h1
                                         className={`
-                                            ${theme.headingColor} 
-                                            ${isCover ? 'text-5xl md:text-6xl font-black !mb-8 !mt-0 leading-tight' : 'text-3xl font-bold mt-0 mb-6'}
+                                            ${theme.headingColor}
+                                            ${isCover ? 'text-lg font-black !mb-2 !mt-0 leading-tight' : 'text-base font-bold mt-0 mb-2'}
                                             ${theme.id === 'notebook' ? 'font-marker' : ''}
-                                        `} 
-                                        {...props} 
+                                        `}
+                                        {...props}
                                     />
                                 ),
                                 h2: ({node, ...props}) => (
-                                    <h2 
+                                    <h2
                                         className={`
                                             ${theme.headingColor}
-                                            text-2xl font-bold mt-0 mb-4
-                                            ${theme.id === 'editorial' && !isCover ? 'border-l-[6px] border-slate-900 pl-4 py-1' : ''}
-                                            ${theme.id === 'grid' ? 'bg-yellow-100 inline px-2 box-decoration-clone leading-snug' : ''}
-                                        `} 
-                                        {...props} 
+                                            text-sm font-bold mt-0 mb-1.5
+                                            ${theme.id === 'editorial' && !isCover ? 'border-l-2 border-slate-900 pl-2 py-0.5' : ''}
+                                            ${theme.id === 'grid' ? 'bg-yellow-100 inline px-1 box-decoration-clone leading-snug' : ''}
+                                        `}
+                                        {...props}
                                     />
                                 ),
                                 p: ({node, ...props}) => (
@@ -179,14 +179,14 @@ const Slide: React.FC<{
                                 ),
                                 // --- IMAGE HANDLING ---
                                 img: ({node, ...props}) => (
-                                    <img 
-                                        {...props} 
-                                        crossOrigin="anonymous" // Essential for downloading external images
-                                        referrerPolicy="no-referrer" // Helps with some hotlink protections
+                                    <img
+                                        {...props}
+                                        crossOrigin="anonymous"
+                                        referrerPolicy="no-referrer"
                                         className={`
-                                            rounded-lg shadow-md my-4 max-h-[300px] w-auto mx-auto object-cover
-                                            ${theme.id === 'grid' ? 'border-2 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' : ''}
-                                            ${theme.id === 'notebook' ? 'rotate-1 border-4 border-white shadow-lg' : ''}
+                                            rounded shadow-sm my-1.5 max-h-[80px] w-auto mx-auto object-cover
+                                            ${theme.id === 'grid' ? 'border border-slate-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : ''}
+                                            ${theme.id === 'notebook' ? 'rotate-1 border-2 border-white shadow-md' : ''}
                                         `}
                                     />
                                 ),
@@ -263,14 +263,14 @@ const Slide: React.FC<{
 
                 {/* Overflow Warning Indicator */}
                 {isOverflowing && (
-                    <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-red-100/90 to-transparent z-20 pointer-events-none flex items-end justify-center pb-2">
-                        <span className="text-[10px] text-red-500 font-bold uppercase tracking-wider bg-white/80 px-2 py-0.5 rounded-full">Content Overflow Risk</span>
+                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-red-100/90 to-transparent z-20 pointer-events-none flex items-end justify-center pb-1">
+                        <span className="text-[7px] text-red-500 font-bold uppercase tracking-wider bg-white/80 px-1.5 py-0.5 rounded-full">Overflow</span>
                     </div>
                 )}
 
                 <div className={`
-                    absolute bottom-4 left-8 right-8
-                    flex justify-between items-center text-[10px] tracking-widest uppercase border-t pt-4
+                    absolute bottom-1.5 left-3 right-3
+                    flex justify-between items-center text-[7px] tracking-wider uppercase border-t pt-1.5
                     ${theme.isDark ? 'border-white/20 text-white/40' : 'border-black/5 text-black/30'}
                     z-10
                 `}>
@@ -279,20 +279,20 @@ const Slide: React.FC<{
                 </div>
             </div>
 
-            <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-30">
-                 <button 
+            <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-30">
+                 <button
                     onClick={handleCopy}
-                    className="p-2 bg-white/90 backdrop-blur text-slate-700 rounded-lg shadow-sm hover:text-indigo-600 border border-slate-200"
-                    title="Copy Image"
+                    className="p-1 bg-white/90 backdrop-blur text-slate-700 rounded shadow-sm hover:text-indigo-600 border border-slate-200"
+                    title="複製圖片"
                  >
-                    {status === 'loading' ? <Loader2 className="w-4 h-4 animate-spin"/> : status === 'success' ? <Check className="w-4 h-4 text-emerald-500"/> : <Copy className="w-4 h-4"/>}
+                    {status === 'loading' ? <Loader2 className="w-3 h-3 animate-spin"/> : status === 'success' ? <Check className="w-3 h-3 text-emerald-500"/> : <Copy className="w-3 h-3"/>}
                  </button>
-                 <button 
+                 <button
                     onClick={handleDownload}
-                    className="p-2 bg-white/90 backdrop-blur text-slate-700 rounded-lg shadow-sm hover:text-indigo-600 border border-slate-200"
-                    title="Download PNG"
+                    className="p-1 bg-white/90 backdrop-blur text-slate-700 rounded shadow-sm hover:text-indigo-600 border border-slate-200"
+                    title="下載 PNG"
                  >
-                    <Download className="w-4 h-4"/>
+                    <Download className="w-3 h-3"/>
                  </button>
             </div>
         </div>
@@ -300,7 +300,6 @@ const Slide: React.FC<{
 }
 
 const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) => {
-  const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
   const [isZipping, setIsZipping] = useState(false);
 
   const slides = useMemo(() => {
@@ -346,7 +345,7 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
 
     } catch (e) {
         console.error("Zip generation failed", e);
-        alert("Failed to generate ZIP. If using external images, this might be due to CORS restrictions.");
+        alert("ZIP 產生失敗。如使用外部圖片，可能因跨域限制導致。");
     } finally {
         setIsZipping(false);
     }
@@ -354,45 +353,23 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
 
   return (
     <div className="h-full w-full bg-slate-100/50 flex flex-col">
-       <div className="px-6 py-3 bg-white/50 backdrop-blur border-b border-slate-200/50 flex justify-between items-center">
+       <div className="px-6 py-2 bg-white/50 backdrop-blur border-b border-slate-200/50 flex justify-between items-center">
           <div className="text-xs text-slate-500 font-medium">
-            {slides.length} Pages • {theme.name}
+            {slides.length} 頁 • {theme.name}
           </div>
-          <div className="flex items-center gap-2">
-            <button 
-                onClick={handleDownloadAll}
-                disabled={isZipping}
-                className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-medium transition-colors border border-indigo-100"
-            >
-                {isZipping ? <Loader2 className="w-3 h-3 animate-spin"/> : <FolderArchive className="w-3 h-3" />}
-                Download All
-            </button>
-            <div className="h-4 w-px bg-slate-300 mx-1"></div>
-            <div className="flex bg-slate-200/50 rounded-lg p-0.5">
-                <button 
-                    onClick={() => setViewMode('carousel')}
-                    className={`p-1.5 rounded-md transition-all ${viewMode === 'carousel' ? 'bg-white shadow text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}
-                    title="Carousel View"
-                >
-                    <LayoutTemplate className="w-4 h-4" />
-                </button>
-                <button 
-                    onClick={() => setViewMode('grid')}
-                    className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow text-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}
-                    title="Grid View"
-                >
-                    <LayoutGrid className="w-4 h-4" />
-                </button>
-            </div>
-          </div>
+          <button
+              onClick={handleDownloadAll}
+              disabled={isZipping}
+              className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-medium transition-colors border border-indigo-100"
+          >
+              {isZipping ? <Loader2 className="w-3 h-3 animate-spin"/> : <FolderArchive className="w-3 h-3" />}
+              全部下載
+          </button>
        </div>
 
        <div className={`
-            flex-1 p-8 md:p-12 overflow-y-auto scrollbar-styled
-            ${viewMode === 'carousel' 
-                ? 'flex flex-row items-center gap-8 overflow-x-auto overflow-y-hidden' 
-                : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center'
-            }
+            flex-1 px-6 py-4 overflow-x-auto scrollbar-styled
+            flex flex-row items-center gap-4
        `}>
             {slides.map((slideContent, index) => (
                 <Slide 
@@ -407,9 +384,9 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
                 />
             ))}
             
-            <div className="w-[375px] h-[500px] shrink-0 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-2 opacity-50 hover:opacity-100 transition-opacity">
-                <div className="text-sm font-medium">Add New Page</div>
-                <div className="text-xs text-center px-4">Type "---" in the editor to create a new slide</div>
+            <div className="w-[195px] h-[260px] shrink-0 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-1 opacity-50 hover:opacity-100 transition-opacity">
+                <div className="text-xs font-medium">新增頁面</div>
+                <div className="text-[10px] text-center px-2">輸入 "---"</div>
             </div>
        </div>
     </div>

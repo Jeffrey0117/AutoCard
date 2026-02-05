@@ -29,10 +29,10 @@ const Editor: React.FC<EditorProps> = ({ value, onChange, fontOption }) => {
          <button 
             onClick={insertPageBreak}
             className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full text-xs font-medium border border-slate-200 transition-colors shadow-sm"
-            title="Insert a new page"
+            title="新增頁面"
          >
             <Layers className="w-3 h-3" />
-            <span>Add Page</span>
+            <span>新增頁面</span>
          </button>
       </div>
       <div className="flex-1 relative group">
@@ -45,7 +45,7 @@ const Editor: React.FC<EditorProps> = ({ value, onChange, fontOption }) => {
             leading-relaxed
             ${fontOption.cssValue}
           `}
-          placeholder="Start typing... Use '---' to separate pages."
+          placeholder="開始輸入... 使用 '---' 分隔頁面"
           spellCheck={false}
         />
       </div>
