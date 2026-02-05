@@ -3,25 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TypeCraft - Aesthetic Editor</title>
+    <title>AutoCard - 社群圖文編輯器</title>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: '#6366f1', // Indigo 500
-              secondary: '#ec4899', // Pink 500
+              primary: '#6366f1',
+              secondary: '#ec4899',
             },
             fontFamily: {
+              // 基本字型
               sans: ['"Noto Sans TC"', 'Inter', 'sans-serif'],
               serif: ['"Noto Serif TC"', 'Merriweather', 'serif'],
-              mono: ['Fira Code', 'monospace'],
+              mono: ['"Fira Code"', 'monospace'],
+              // 中文特色字型
               hand: ['"Ma Shan Zheng"', 'cursive'],
               marker: ['"Zhi Mang Xing"', 'cursive'],
               rounded: ['"Zen Maru Gothic"', 'sans-serif'],
               mincho: ['"Shippori Mincho"', 'serif'],
               pixel: ['"DotGothic16"', 'sans-serif'],
+              // 新增開源字型
+              wenkai: ['"LXGW WenKai TC"', 'cursive'],
+              cute: ['"Kosugi Maru"', 'sans-serif'],
+              gothic: ['"M PLUS Rounded 1c"', 'sans-serif'],
+              elegant: ['"Playfair Display"', 'serif'],
+              classic: ['"Libre Baskerville"', 'serif'],
+              modern: ['"Poppins"', 'sans-serif'],
             },
             typography: (theme) => ({
               DEFAULT: {
@@ -39,22 +48,7 @@
         }
       }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Fira+Code&family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;500;700&family=DotGothic16&display=swap" rel="stylesheet">
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
-    "remark-gfm": "https://esm.sh/remark-gfm@^4.0.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "html-to-image": "https://esm.sh/html-to-image@^1.11.11",
-    "jszip": "https://esm.sh/jszip@^3.10.1"
-  }
-}
-</script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;900&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Fira+Code&family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;500;700&family=DotGothic16&family=LXGW+WenKai+TC:wght@300;400;700&family=Kosugi+Maru&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Playfair+Display:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
       /* Custom scrollbar styling */
       .scrollbar-styled::-webkit-scrollbar {
@@ -100,5 +94,6 @@
 </head>
   <body class="bg-slate-50 text-slate-900 h-screen overflow-hidden">
     <div id="root" class="h-full"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

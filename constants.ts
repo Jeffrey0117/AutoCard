@@ -1,14 +1,24 @@
 import { Theme, FontOption } from './types';
 
 export const FONTS: FontOption[] = [
-  { id: 'rounded', name: '圓體 (Cute)', cssValue: 'font-rounded' },
-  { id: 'serif', name: '宋體 (Elegant)', cssValue: 'font-serif' },
-  { id: 'sans', name: '黑體 (Modern)', cssValue: 'font-sans' },
-  { id: 'mincho', name: '明朝體 (Literary)', cssValue: 'font-mincho' },
-  { id: 'hand', name: '手寫 (Hand)', cssValue: 'font-hand' },
-  { id: 'marker', name: '書法 (Marker)', cssValue: 'font-marker' },
-  { id: 'pixel', name: '像素 (Pixel)', cssValue: 'font-pixel' },
-  { id: 'mono', name: '代碼 (Mono)', cssValue: 'font-mono' },
+  // 中文字型
+  { id: 'sans', name: '思源黑體', cssValue: 'font-sans' },
+  { id: 'serif', name: '思源宋體', cssValue: 'font-serif' },
+  { id: 'wenkai', name: '霞鶩文楷', cssValue: 'font-wenkai' },
+  { id: 'rounded', name: '日系圓體', cssValue: 'font-rounded' },
+  { id: 'gothic', name: '圓潤黑體', cssValue: 'font-gothic' },
+  { id: 'cute', name: '可愛圓體', cssValue: 'font-cute' },
+  { id: 'mincho', name: '明朝體', cssValue: 'font-mincho' },
+  // 手寫/藝術字型
+  { id: 'hand', name: '毛筆楷書', cssValue: 'font-hand' },
+  { id: 'marker', name: '行草書法', cssValue: 'font-marker' },
+  // 英文/裝飾字型
+  { id: 'modern', name: 'Poppins', cssValue: 'font-modern' },
+  { id: 'elegant', name: 'Playfair', cssValue: 'font-elegant' },
+  { id: 'classic', name: 'Baskerville', cssValue: 'font-classic' },
+  // 特殊字型
+  { id: 'pixel', name: '像素點陣', cssValue: 'font-pixel' },
+  { id: 'mono', name: '等寬代碼', cssValue: 'font-mono' },
 ];
 
 export const INITIAL_MARKDOWN = `# 文字筆記

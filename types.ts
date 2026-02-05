@@ -1,4 +1,6 @@
-export type FontFamily = 'sans' | 'serif' | 'mono' | 'hand' | 'marker' | 'rounded' | 'mincho' | 'pixel';
+export type FontFamily =
+  | 'sans' | 'serif' | 'mono' | 'hand' | 'marker' | 'rounded' | 'mincho' | 'pixel'
+  | 'wenkai' | 'cute' | 'gothic' | 'elegant' | 'classic' | 'modern';
 
 export interface FontOption {
   id: FontFamily;
