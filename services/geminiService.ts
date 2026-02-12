@@ -1,6 +1,7 @@
 // Gemini Service - calls backend API (no API keys exposed)
 
 import { AIServiceAction } from '../types';
+import { getAuthHeaders } from './auth';
 
 export const generateAIContent = async (text: string, action: AIServiceAction): Promise<string> => {
   const actionMap: Record<AIServiceAction, string> = {
@@ -15,6 +16,7 @@ export const generateAIContent = async (text: string, action: AIServiceAction): 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...getAuthHeaders(),
     },
     body: JSON.stringify({
       action: actionMap[action],
@@ -36,6 +38,7 @@ export const generateFromTopic = async (topic: string): Promise<string> => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...getAuthHeaders(),
     },
     body: JSON.stringify({
       action: 'from_topic',
@@ -57,6 +60,7 @@ export const generateSocialCaptions = async (text: string, isThreadMode: boolean
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...getAuthHeaders(),
     },
     body: JSON.stringify({
       action: 'social_caption',

@@ -2,6 +2,8 @@
  * AI 服務 - 透過後端 API 呼叫（API keys 不會暴露在前端）
  */
 
+import { getAuthHeaders } from './auth';
+
 export interface GenerateOptions {
   topic: string;
   style?: 'tutorial' | 'story' | 'list' | 'opinion';
@@ -15,6 +17,7 @@ export async function generateContent(options: GenerateOptions): Promise<string>
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...getAuthHeaders(),
     },
     body: JSON.stringify({ topic, pages }),
   });

@@ -4,14 +4,54 @@
  */
 
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'autocard_default_secret';
+const AUTH_PASSWORD = process.env.AUTH_PASSWORD || '';
 
 app.use(express.json());
+
+// ===== Auth =====
+
+// POST /api/login
+app.post('/api/login', (req, res) => {
+  const { password } = req.body;
+  if (!AUTH_PASSWORD) return res.json({ success: true, token: 'no-auth' });
+  if (password !== AUTH_PASSWORD) {
+    return res.status(401).json({ error: '密碼錯誤' });
+  }
+  const token = jwt.sign({ role: 'user', iat: Math.floor(Date.now() / 1000) }, JWT_SECRET, { expiresIn: '7d' });
+  return res.json({ success: true, token });
+});
+
+// GET /api/verify
+app.get('/api/verify', (req, res) => {
+  if (!AUTH_PASSWORD) return res.json({ valid: true });
+  const token = (req.headers.authorization || '').replace('Bearer ', '');
+  try {
+    jwt.verify(token, JWT_SECRET);
+    return res.json({ valid: true });
+  } catch {
+    return res.status(401).json({ valid: false });
+  }
+});
+
+// Auth middleware - 保護以下所有 /api/* 路由
+app.use('/api', (req, res, next) => {
+  if (!AUTH_PASSWORD) return next();
+  const token = (req.headers.authorization || '').replace('Bearer ', '');
+  try {
+    jwt.verify(token, JWT_SECRET);
+    next();
+  } catch {
+    return res.status(401).json({ error: '請先登入' });
+  }
+});
 
 // ===== API Routes =====
 
