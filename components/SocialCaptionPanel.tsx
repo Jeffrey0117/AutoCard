@@ -35,7 +35,7 @@ const SocialCaptionPanel: React.FC<SocialCaptionPanelProps> = ({ currentText, on
   };
 
   return (
-    <div className="absolute top-16 right-4 md:right-8 w-[90vw] md:w-[400px] bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-6 z-50 animate-in fade-in slide-in-from-top-4 flex flex-col max-h-[80vh]">
+    <div className="absolute top-16 left-2 right-2 sm:left-auto sm:right-4 md:right-8 sm:w-[90vw] md:w-[400px] bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-4 sm:p-6 z-50 animate-in fade-in slide-in-from-top-4 flex flex-col max-h-[80vh]">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-pink-600 flex items-center gap-2">
           <MessageSquareText className="w-5 h-5" />

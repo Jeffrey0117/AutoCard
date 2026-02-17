@@ -101,7 +101,7 @@ const App: React.FC = () => {
 
       <AIGenerator onGenerate={setMarkdown} />
 
-      <main className="flex-1 flex flex-col overflow-hidden relative px-12 lg:px-32 xl:px-48 2xl:px-64 bg-slate-100">
+      <main className="flex-1 flex flex-col overflow-hidden relative px-3 sm:px-6 md:px-12 lg:px-32 xl:px-48 2xl:px-64 bg-slate-100">
         {/* Mobile Toggle */}
         {isMobile && (
           <button

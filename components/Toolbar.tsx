@@ -54,7 +54,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   const currentFont = FONTS.find(f => f.id === currentFontId);
 
   return (
-    <header className="h-14 border-b border-slate-200 bg-white flex items-center justify-between px-4 sticky top-0 z-40">
+    <header className="h-14 border-b border-slate-200 bg-white flex items-center justify-between px-2 sm:px-4 sticky top-0 z-40">
       {/* Logo + Title */}
       <div className="flex items-center gap-3 min-w-0">
         <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-pink-500 rounded-lg flex-shrink-0 flex items-center justify-center text-white font-bold text-sm shadow-md">
@@ -70,12 +70,12 @@ const Toolbar: React.FC<ToolbarProps> = ({
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-1.5" ref={dropdownRef}>
+      <div className="flex items-center gap-1 sm:gap-1.5" ref={dropdownRef}>
         {/* Theme Selector */}
         <div className="relative">
           <button
             onClick={() => setOpenDropdown(openDropdown === 'theme' ? null : 'theme')}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg text-sm font-medium transition-all ${
               openDropdown === 'theme' ? 'bg-slate-200 text-slate-900' : 'hover:bg-slate-100 text-slate-600'
             }`}
           >
@@ -126,7 +126,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <div className="relative">
           <button
             onClick={() => setOpenDropdown(openDropdown === 'font' ? null : 'font')}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg text-sm font-medium transition-all ${
               openDropdown === 'font' ? 'bg-slate-200 text-slate-900' : 'hover:bg-slate-100 text-slate-600'
             }`}
           >
@@ -168,7 +168,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         {/* Action Buttons */}
         <button
           onClick={onToggleSocial}
-          className="flex items-center gap-1.5 px-3 py-2 bg-pink-50 text-pink-600 rounded-lg hover:bg-pink-100 transition-colors text-sm font-medium"
+          className="flex items-center gap-1.5 px-2 sm:px-3 py-2 bg-pink-50 text-pink-600 rounded-lg hover:bg-pink-100 transition-colors text-sm font-medium"
         >
           <MessageSquareText className="w-4 h-4" />
           <span className="hidden lg:inline">文案</span>
@@ -176,7 +176,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
         <button
           onClick={onToggleAI}
-          className="flex items-center gap-1.5 px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors text-sm font-medium"
+          className="flex items-center gap-1.5 px-2 sm:px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors text-sm font-medium"
         >
           <Sparkles className="w-4 h-4" />
           <span className="hidden lg:inline">AI</span>
@@ -184,7 +184,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
 
         <button
           onClick={onCopy}
-          className="flex items-center gap-1.5 px-3 py-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors text-sm"
+          className="flex items-center gap-1.5 px-2 sm:px-3 py-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors text-sm"
         >
           <Copy className="w-4 h-4" />
         </button>

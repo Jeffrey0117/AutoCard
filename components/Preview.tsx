@@ -95,7 +95,7 @@ const Slide: React.FC<{
                 ref={slideRef}
                 id={id}
                 className={`
-                    w-[195px] h-[260px] shrink-0
+                    w-[150px] h-[200px] sm:w-[195px] sm:h-[260px] shrink-0
                     transition-all duration-300 ease-in-out
                     flex flex-col overflow-hidden
                     ${theme.slideClassName}
@@ -344,7 +344,7 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
 
   return (
     <div className="h-full w-full bg-slate-50 flex flex-col">
-       <div className="px-6 py-2 border-b border-slate-100 flex justify-between items-center">
+       <div className="px-3 sm:px-6 py-2 border-b border-slate-100 flex justify-between items-center">
           <div className="text-xs text-slate-500 font-medium">
             {slides.length} 頁 • {theme.name}
           </div>
@@ -359,8 +359,8 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
        </div>
 
        <div className={`
-            flex-1 px-6 py-4 overflow-x-auto scrollbar-styled
-            flex flex-row items-center gap-4
+            flex-1 px-3 sm:px-6 py-4 overflow-x-auto scrollbar-styled
+            flex flex-row items-center gap-3 sm:gap-4
        `}>
             {slides.map((slideContent, index) => (
                 <Slide 
@@ -375,7 +375,7 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
                 />
             ))}
             
-            <div className="w-[195px] h-[260px] shrink-0 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-1 opacity-50 hover:opacity-100 transition-opacity">
+            <div className="w-[150px] h-[200px] sm:w-[195px] sm:h-[260px] shrink-0 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-1 opacity-50 hover:opacity-100 transition-opacity">
                 <div className="text-xs font-medium">新增頁面</div>
                 <div className="text-[10px] text-center px-2">輸入 "---"</div>
             </div>

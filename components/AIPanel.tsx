@@ -55,7 +55,7 @@ const AIPanel: React.FC<AIPanelProps> = ({ currentText, onReplace, onClose }) =>
   };
 
   return (
-    <div className="absolute top-16 left-4 right-4 md:left-auto md:right-8 md:w-96 bg-white/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-6 z-50 animate-in fade-in slide-in-from-top-4">
+    <div className="absolute top-16 left-2 right-2 sm:left-4 sm:right-4 md:left-auto md:right-8 md:w-96 bg-white/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl p-4 sm:p-6 z-50 animate-in fade-in slide-in-from-top-4">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-indigo-500" />
