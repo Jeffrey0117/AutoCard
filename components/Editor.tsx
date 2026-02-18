@@ -36,7 +36,16 @@ const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
 
   return (
     <div className="h-full w-full flex flex-col relative">
-      <div className="absolute bottom-4 right-4 z-10 flex gap-2">
+      <div className="flex-1 relative group">
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full h-full p-4 sm:p-6 pb-14 resize-none outline-none bg-transparent text-slate-700 placeholder-slate-400 leading-relaxed font-mono text-sm"
+          placeholder="開始輸入... 使用 '---' 分隔頁面"
+          spellCheck={false}
+        />
+      </div>
+      <div className="absolute bottom-2 left-2 right-2 sm:left-auto sm:right-4 sm:bottom-4 z-10 flex gap-2 justify-end">
          <button
             onClick={handlePaste}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-full text-xs font-medium border border-indigo-200 transition-colors shadow-sm"
@@ -61,15 +70,6 @@ const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
             <Layers className="w-3 h-3" />
             <span className="hidden sm:inline">新增頁面</span>
          </button>
-      </div>
-      <div className="flex-1 relative group">
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full h-full p-6 resize-none outline-none bg-transparent text-slate-700 placeholder-slate-400 leading-relaxed font-mono text-sm"
-          placeholder="開始輸入... 使用 '---' 分隔頁面"
-          spellCheck={false}
-        />
       </div>
     </div>
   );

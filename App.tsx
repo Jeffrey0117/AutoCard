@@ -106,7 +106,7 @@ const App: React.FC = () => {
         {isMobile && (
           <button
             onClick={toggleView}
-            className="absolute bottom-6 right-6 z-50 bg-slate-900 text-white p-4 rounded-full shadow-xl"
+            className="absolute bottom-14 right-3 z-50 bg-slate-900 text-white p-3 rounded-full shadow-xl"
           >
             {showEditor ? <PanelRight className="w-6 h-6" /> : <PanelLeft className="w-6 h-6" />}
           </button>
