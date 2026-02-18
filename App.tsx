@@ -6,7 +6,7 @@ import Toolbar from './components/Toolbar';
 import AIGenerator from './components/AIGenerator';
 import AIPanel from './components/AIPanel';
 import SocialCaptionPanel from './components/SocialCaptionPanel';
-import { PanelLeft, PanelRight } from 'lucide-react';
+import { PanelLeft, PanelRight, ClipboardPaste, Trash2, Layers } from 'lucide-react';
 import { FontFamily } from './types';
 
 const App: React.FC = () => {
@@ -74,6 +74,29 @@ const App: React.FC = () => {
     });
   };
 
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) setMarkdown(text);
+    } catch {
+      // clipboard permission denied
+    }
+  };
+
+  const handleClear = () => {
+    setMarkdown('');
+  };
+
+  const insertPageBreak = () => {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const newText = `${markdown.substring(0, start)}\n\n---\n\n${markdown.substring(end)}`;
+      setMarkdown(newText);
+    }
+  };
+
   const toggleView = () => {
     if (showEditor) {
       setShowEditor(false);
@@ -118,9 +141,22 @@ const App: React.FC = () => {
             flex flex-col min-w-0 bg-white rounded-t-xl shadow-sm border border-slate-200 border-b-0 transition-all duration-300 mt-4
             ${isMobile ? 'flex-1' : 'h-[60%]'}
           `}>
-             <div className="px-6 py-2.5 text-xs font-medium text-slate-500 tracking-wide border-b border-slate-100 flex justify-between items-center">
+             <div className="px-3 sm:px-6 py-1.5 text-xs font-medium text-slate-500 tracking-wide border-b border-slate-100 flex justify-between items-center">
                <span>編輯器</span>
-               <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-400">Markdown</span>
+               <div className="flex items-center gap-1.5">
+                 <button onClick={handlePaste} className="flex items-center gap-1 px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-md text-[11px] font-medium transition-colors" title="貼上">
+                   <ClipboardPaste className="w-3 h-3" />
+                   <span className="hidden sm:inline">貼上</span>
+                 </button>
+                 <button onClick={handleClear} className="flex items-center gap-1 px-2 py-1 bg-red-50 hover:bg-red-100 text-red-500 rounded-md text-[11px] font-medium transition-colors" title="清空">
+                   <Trash2 className="w-3 h-3" />
+                   <span className="hidden sm:inline">清空</span>
+                 </button>
+                 <button onClick={insertPageBreak} className="flex items-center gap-1 px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md text-[11px] font-medium transition-colors" title="新增頁面">
+                   <Layers className="w-3 h-3" />
+                   <span className="hidden sm:inline">分頁</span>
+                 </button>
+               </div>
              </div>
              <Editor
                 value={markdown}
