@@ -129,7 +129,7 @@ const App: React.FC = () => {
         {isMobile && (
           <button
             onClick={toggleView}
-            className="absolute bottom-14 right-3 z-50 bg-slate-900 text-white p-3 rounded-full shadow-xl"
+            className="absolute bottom-6 right-4 z-50 bg-slate-900 text-white p-3 rounded-full shadow-xl"
           >
             {showEditor ? <PanelRight className="w-6 h-6" /> : <PanelLeft className="w-6 h-6" />}
           </button>
@@ -141,19 +141,19 @@ const App: React.FC = () => {
             flex flex-col min-w-0 bg-white rounded-t-xl shadow-sm border border-slate-200 border-b-0 transition-all duration-300 mt-4
             ${isMobile ? 'flex-1' : 'h-[60%]'}
           `}>
-             <div className="px-3 sm:px-6 py-1.5 text-xs font-medium text-slate-500 tracking-wide border-b border-slate-100 flex justify-between items-center">
-               <span>編輯器</span>
-               <div className="flex items-center gap-1.5">
-                 <button onClick={handlePaste} className="flex items-center gap-1 px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-md text-[11px] font-medium transition-colors" title="貼上">
-                   <ClipboardPaste className="w-3 h-3" />
+             <div className="px-3 sm:px-6 py-1.5 text-xs font-medium text-slate-500 tracking-wide border-b border-slate-100 flex justify-between items-center gap-2">
+               <span className="shrink-0">編輯器</span>
+               <div className="flex items-center gap-1">
+                 <button onClick={handlePaste} className="flex items-center gap-1 px-1.5 sm:px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded text-[11px] font-medium transition-colors" title="貼上">
+                   <ClipboardPaste className="w-3.5 h-3.5" />
                    <span className="hidden sm:inline">貼上</span>
                  </button>
-                 <button onClick={handleClear} className="flex items-center gap-1 px-2 py-1 bg-red-50 hover:bg-red-100 text-red-500 rounded-md text-[11px] font-medium transition-colors" title="清空">
-                   <Trash2 className="w-3 h-3" />
+                 <button onClick={handleClear} className="flex items-center gap-1 px-1.5 sm:px-2 py-1 bg-red-50 hover:bg-red-100 text-red-500 rounded text-[11px] font-medium transition-colors" title="清空">
+                   <Trash2 className="w-3.5 h-3.5" />
                    <span className="hidden sm:inline">清空</span>
                  </button>
-                 <button onClick={insertPageBreak} className="flex items-center gap-1 px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md text-[11px] font-medium transition-colors" title="新增頁面">
-                   <Layers className="w-3 h-3" />
+                 <button onClick={insertPageBreak} className="flex items-center gap-1 px-1.5 sm:px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded text-[11px] font-medium transition-colors" title="分頁">
+                   <Layers className="w-3.5 h-3.5" />
                    <span className="hidden sm:inline">分頁</span>
                  </button>
                </div>
