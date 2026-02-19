@@ -95,7 +95,7 @@ const Slide: React.FC<{
                 ref={slideRef}
                 id={id}
                 className={`
-                    w-[150px] h-[200px] sm:w-[195px] sm:h-[260px] shrink-0
+                    w-[240px] h-[320px] sm:w-[195px] sm:h-[260px] shrink-0
                     transition-all duration-300 ease-in-out
                     flex flex-col overflow-hidden
                     ${theme.slideClassName}
@@ -359,23 +359,24 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
        </div>
 
        <div className={`
-            flex-1 px-3 sm:px-6 py-4 overflow-x-auto scrollbar-styled
-            flex flex-row items-center gap-3 sm:gap-4
+            flex-1 px-3 sm:px-6 py-4 scrollbar-styled
+            sm:overflow-x-auto sm:flex sm:flex-row sm:items-center sm:gap-4
+            overflow-y-auto flex flex-col items-center gap-4
        `}>
             {slides.map((slideContent, index) => (
-                <Slide 
+                <Slide
                     key={index}
                     id={`slide-${index}`}
-                    content={slideContent} 
-                    theme={theme} 
+                    content={slideContent}
+                    theme={theme}
                     fontOption={fontOption}
-                    index={index} 
+                    index={index}
                     total={slides.length}
                     title={title}
                 />
             ))}
-            
-            <div className="w-[150px] h-[200px] sm:w-[195px] sm:h-[260px] shrink-0 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-1 opacity-50 hover:opacity-100 transition-opacity">
+
+            <div className="w-[240px] h-[320px] sm:w-[195px] sm:h-[260px] shrink-0 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-slate-400 gap-1 opacity-50 hover:opacity-100 transition-opacity">
                 <div className="text-xs font-medium">新增頁面</div>
                 <div className="text-[10px] text-center px-2">輸入 "---"</div>
             </div>
