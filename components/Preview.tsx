@@ -270,20 +270,22 @@ const Slide: React.FC<{
                 </div>
             </div>
 
-            <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-30">
-                 <button
-                    onClick={handleCopy}
-                    className="p-1 bg-white/90 backdrop-blur text-slate-700 rounded shadow-sm hover:text-indigo-600 border border-slate-200"
-                    title="複製圖片"
-                 >
-                    {status === 'loading' ? <Loader2 className="w-3 h-3 animate-spin"/> : status === 'success' ? <Check className="w-3 h-3 text-emerald-500"/> : <Copy className="w-3 h-3"/>}
-                 </button>
+            <div className="flex gap-1.5 sm:absolute sm:top-1 sm:right-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-30 mt-1 sm:mt-0">
                  <button
                     onClick={handleDownload}
-                    className="p-1 bg-white/90 backdrop-blur text-slate-700 rounded shadow-sm hover:text-indigo-600 border border-slate-200"
+                    className="flex items-center gap-1 px-2.5 py-1.5 sm:p-1 bg-indigo-50 sm:bg-white/90 backdrop-blur text-indigo-600 sm:text-slate-700 rounded-lg sm:rounded shadow-sm hover:text-indigo-600 border border-indigo-200 sm:border-slate-200 text-xs sm:text-base"
                     title="下載 PNG"
                  >
-                    <Download className="w-3 h-3"/>
+                    <Download className="w-3.5 h-3.5 sm:w-3 sm:h-3"/>
+                    <span className="sm:hidden">下載</span>
+                 </button>
+                 <button
+                    onClick={handleCopy}
+                    className="flex items-center gap-1 px-2.5 py-1.5 sm:p-1 bg-white/90 backdrop-blur text-slate-600 sm:text-slate-700 rounded-lg sm:rounded shadow-sm hover:text-indigo-600 border border-slate-200 text-xs sm:text-base"
+                    title="複製圖片"
+                 >
+                    {status === 'loading' ? <Loader2 className="w-3.5 h-3.5 sm:w-3 sm:h-3 animate-spin"/> : status === 'success' ? <Check className="w-3.5 h-3.5 sm:w-3 sm:h-3 text-emerald-500"/> : <Copy className="w-3.5 h-3.5 sm:w-3 sm:h-3"/>}
+                    <span className="sm:hidden">複製</span>
                  </button>
             </div>
         </div>
@@ -359,9 +361,10 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
        </div>
 
        <div className={`
-            flex-1 px-3 sm:px-6 py-4 scrollbar-styled
-            sm:overflow-x-auto sm:flex sm:flex-row sm:items-center sm:gap-4
-            overflow-y-auto flex flex-col items-center gap-4
+            flex-1 px-3 sm:px-6 py-4 scrollbar-styled min-h-0
+            sm:overflow-x-auto sm:overflow-y-hidden sm:flex-row sm:items-center
+            overflow-y-auto overflow-x-hidden flex-col items-center
+            flex gap-4
        `}>
             {slides.map((slideContent, index) => (
                 <Slide
