@@ -3,7 +3,8 @@
  * Wraps Vercel-style API handlers for standalone deployment
  */
 
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ override: true });
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
