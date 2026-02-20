@@ -168,7 +168,7 @@ const App: React.FC = () => {
         {/* Preview Pane - 下方 */}
         {showPreview && (
           <div className={`
-            flex flex-col min-w-0 bg-white rounded-b-xl shadow-sm border border-slate-200 border-t-0 transition-all duration-300 mb-4
+            flex flex-col min-w-0 min-h-0 bg-white rounded-b-xl shadow-sm border border-slate-200 border-t-0 transition-all duration-300 mb-4 overflow-hidden
             ${isMobile ? 'flex-1' : 'h-[40%]'}
           `}>
              <Preview

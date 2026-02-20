@@ -294,10 +294,46 @@ const Slide: React.FC<{
 
 const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) => {
   const [isZipping, setIsZipping] = useState(false);
+  const [isBatchDownloading, setIsBatchDownloading] = useState(false);
+  const [batchProgress, setBatchProgress] = useState(0);
 
   const slides = useMemo(() => {
     return content.split(/\n-{3,}\n/).filter(slide => slide.trim().length > 0);
   }, [content]);
+
+  const htmlToImageBulkConfig = {
+    cacheBust: true,
+    pixelRatio: 2,
+    skipAutoScale: true,
+    useCORS: true,
+    allowTaint: true,
+    fontEmbedCSS: '',
+    filter: (node: HTMLElement) => node.tagName !== 'LINK'
+  };
+
+  // Batch download: one PNG at a time
+  const handleBatchDownload = async () => {
+    setIsBatchDownloading(true);
+    setBatchProgress(0);
+    const slideElements = document.querySelectorAll('[id^="slide-"]');
+
+    for (let i = 0; i < slideElements.length; i++) {
+      const el = slideElements[i] as HTMLElement;
+      try {
+        await new Promise(r => setTimeout(r, 400));
+        const dataUrl = await toPng(el, htmlToImageBulkConfig);
+        const link = document.createElement('a');
+        link.download = `${title}-slide-${i + 1}.png`;
+        link.href = dataUrl;
+        link.click();
+        setBatchProgress(i + 1);
+      } catch {
+        // skip failed slide
+      }
+    }
+
+    setIsBatchDownloading(false);
+  };
 
   // Handle Download All as ZIP
   const handleDownloadAll = async () => {
@@ -305,26 +341,13 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
     const zip = new JSZip();
     const folder = zip.folder(title.replace(/\s+/g, '-'));
 
-    // Config for bulk export
-    const htmlToImageConfig = {
-        cacheBust: true,
-        pixelRatio: 2,
-        skipAutoScale: true,
-        useCORS: true,
-        allowTaint: true,
-        fontEmbedCSS: '', 
-        filter: (node: HTMLElement) => node.tagName !== 'LINK'
-    };
-
     try {
         const slideElements = document.querySelectorAll('[id^="slide-"]');
-        
-        // Process sequentially to avoid browser hanging
+
         for (let i = 0; i < slideElements.length; i++) {
             const el = slideElements[i] as HTMLElement;
-            // Increased delay to ensure images load
             await new Promise(r => setTimeout(r, 300));
-            const blob = await toBlob(el, htmlToImageConfig);
+            const blob = await toBlob(el, htmlToImageBulkConfig);
             if (blob && folder) {
                 folder.file(`${title}-slide-${i + 1}.png`, blob);
             }
@@ -345,19 +368,28 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
   };
 
   return (
-    <div className="h-full w-full bg-slate-50 flex flex-col">
-       <div className="px-3 sm:px-6 py-2 border-b border-slate-100 flex justify-between items-center">
-          <div className="text-xs text-slate-500 font-medium">
-            {slides.length} 頁 • {theme.name}
+    <div className="h-full w-full bg-slate-50 flex flex-col min-h-0">
+       <div className="px-3 sm:px-6 py-2 border-b border-slate-100 flex justify-between items-center gap-2">
+          <div className="text-xs text-slate-500 font-medium shrink-0">
+            {slides.length} 頁
           </div>
-          <button
-              onClick={handleDownloadAll}
-              disabled={isZipping}
-              className="flex items-center gap-2 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-medium transition-colors border border-indigo-100"
-          >
-              {isZipping ? <Loader2 className="w-3 h-3 animate-spin"/> : <FolderArchive className="w-3 h-3" />}
-              全部下載
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+                onClick={handleBatchDownload}
+                disabled={isBatchDownloading || isZipping}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-medium transition-colors border border-indigo-100"
+            >
+                {isBatchDownloading ? <><Loader2 className="w-3 h-3 animate-spin"/> {batchProgress}/{slides.length}</> : <><Download className="w-3 h-3" /> 逐張下載</>}
+            </button>
+            <button
+                onClick={handleDownloadAll}
+                disabled={isZipping || isBatchDownloading}
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-medium transition-colors border border-slate-200"
+            >
+                {isZipping ? <Loader2 className="w-3 h-3 animate-spin"/> : <FolderArchive className="w-3 h-3" />}
+                ZIP
+            </button>
+          </div>
        </div>
 
        <div className={`
