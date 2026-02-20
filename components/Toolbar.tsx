@@ -64,22 +64,24 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-pink-500 rounded-lg flex-shrink-0 flex items-center justify-center text-white font-bold text-sm shadow-md">
           A
         </div>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => onTitleChange(e.target.value)}
-          className="font-semibold text-slate-800 bg-transparent hover:bg-slate-100 focus:bg-white border border-transparent focus:border-slate-300 rounded-lg px-2 py-1 outline-none transition-all w-28 md:w-40 text-sm truncate"
-          placeholder="專案名稱"
-        />
-        <div className="hidden sm:flex items-center gap-1 text-slate-400">
-          <User className="w-3.5 h-3.5" />
+        <div className="flex flex-col min-w-0">
           <input
             type="text"
-            value={author}
-            onChange={(e) => onAuthorChange(e.target.value)}
-            className="text-slate-600 bg-transparent hover:bg-slate-100 focus:bg-white border border-transparent focus:border-slate-300 rounded-lg px-1.5 py-1 outline-none transition-all w-24 md:w-32 text-xs"
-            placeholder="作者名稱"
+            value={title}
+            onChange={(e) => onTitleChange(e.target.value)}
+            className="font-semibold text-slate-800 bg-transparent hover:bg-slate-100 focus:bg-white border border-transparent focus:border-slate-300 rounded-lg px-2 py-0.5 outline-none transition-all w-24 sm:w-28 md:w-40 text-sm truncate"
+            placeholder="專案名稱"
           />
+          <div className="flex items-center gap-1 px-2">
+            <User className="w-2.5 h-2.5 text-slate-300 shrink-0" />
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => onAuthorChange(e.target.value)}
+              className="text-slate-400 bg-transparent hover:bg-slate-100 focus:bg-white focus:text-slate-600 border border-transparent focus:border-slate-300 rounded px-1 py-0 outline-none transition-all w-20 sm:w-24 md:w-32 text-[10px]"
+              placeholder="作者名稱"
+            />
+          </div>
         </div>
       </div>
 
