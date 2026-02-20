@@ -33,15 +33,22 @@ const Slide: React.FC<{
     React.useEffect(() => {
         const el = contentRef.current;
         if (!el) return;
+        el.style.fontSize = '100%';
         setFontScale(100);
+
+        // Use rAF + setTimeout to ensure layout is fully computed
         requestAnimationFrame(() => {
-            let scale = 100;
-            while (el.scrollHeight > el.clientHeight && scale > 60) {
-                scale -= 5;
-                el.style.fontSize = `${scale}%`;
-            }
-            setFontScale(scale);
-            setIsOverflowing(el.scrollHeight > el.clientHeight);
+            setTimeout(() => {
+                let scale = 100;
+                while (el.scrollHeight > el.clientHeight && scale > 40) {
+                    scale -= 5;
+                    el.style.fontSize = `${scale}%`;
+                    // Force synchronous reflow so scrollHeight updates
+                    void el.offsetHeight;
+                }
+                setFontScale(scale);
+                setIsOverflowing(el.scrollHeight > el.clientHeight);
+            }, 0);
         });
     }, [content]);
 
