@@ -27,11 +27,22 @@ const Slide: React.FC<{
     const contentRef = useRef<HTMLDivElement>(null);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
     const [isOverflowing, setIsOverflowing] = useState(false);
+    const [fontScale, setFontScale] = useState(100);
 
-    // Simple check for potential overflow (approximate)
+    // Detect real overflow and auto-shrink font
     React.useEffect(() => {
-        if (content.length > 600) setIsOverflowing(true); // Heuristic
-        else setIsOverflowing(false);
+        const el = contentRef.current;
+        if (!el) return;
+        setFontScale(100);
+        requestAnimationFrame(() => {
+            let scale = 100;
+            while (el.scrollHeight > el.clientHeight && scale > 60) {
+                scale -= 5;
+                el.style.fontSize = `${scale}%`;
+            }
+            setFontScale(scale);
+            setIsOverflowing(el.scrollHeight > el.clientHeight);
+        });
     }, [content]);
 
     // Configuration to prevent CORS errors with external fonts and IMAGES
@@ -120,6 +131,7 @@ const Slide: React.FC<{
                         relative z-10 px-3 h-full flex flex-col overflow-hidden
                         ${isCover ? 'justify-center items-center text-center' : 'pt-10 pb-2 justify-start text-left'}
                     `}
+                    style={{ fontSize: `${fontScale}%` }}
                 >
                     <div className={`
                         prose prose-xs max-w-none w-full text-[10px] leading-relaxed
