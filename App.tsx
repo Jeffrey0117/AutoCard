@@ -22,6 +22,9 @@ const App: React.FC = () => {
   const [projectTitle, setProjectTitle] = useState(() => {
     return localStorage.getItem('autocard_title') || 'AutoCard';
   });
+  const [author, setAuthor] = useState(() => {
+    return localStorage.getItem('autocard_author') || '';
+  });
   
   const [showAI, setShowAI] = useState(false);
   const [showSocial, setShowSocial] = useState(false); // New state
@@ -49,6 +52,10 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('autocard_markdown', markdown);
   }, [markdown]);
+
+  useEffect(() => {
+    localStorage.setItem('autocard_author', author);
+  }, [author]);
 
   // Handle responsive layout
   useEffect(() => {
@@ -114,7 +121,9 @@ const App: React.FC = () => {
         currentThemeId={currentThemeId}
         currentFontId={currentFontId}
         title={projectTitle}
+        author={author}
         onTitleChange={setProjectTitle}
+        onAuthorChange={setAuthor}
         onThemeChange={setCurrentThemeId}
         onFontChange={setCurrentFontId}
         onToggleAI={() => { setShowAI(!showAI); setShowSocial(false); }}
@@ -176,6 +185,7 @@ const App: React.FC = () => {
                 theme={currentTheme}
                 fontOption={currentFont}
                 title={projectTitle}
+                author={author}
                 previewRef={previewRef}
              />
           </div>

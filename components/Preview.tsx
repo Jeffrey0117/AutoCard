@@ -11,18 +11,20 @@ interface PreviewProps {
   theme: Theme;
   fontOption: FontOption;
   title: string;
+  author: string;
   previewRef: React.RefObject<HTMLDivElement>;
 }
 
-const Slide: React.FC<{ 
-    content: string; 
-    theme: Theme; 
+const Slide: React.FC<{
+    content: string;
+    theme: Theme;
     fontOption: FontOption;
-    index: number; 
+    index: number;
     total: number;
     id: string;
     title: string;
-}> = ({ content, theme, fontOption, index, total, id, title }) => {
+    author: string;
+}> = ({ content, theme, fontOption, index, total, id, title, author }) => {
     const slideRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
@@ -283,12 +285,21 @@ const Slide: React.FC<{
                     <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-red-200/80 to-transparent z-20 pointer-events-none" />
                 )}
 
+                {author && (
+                    <div className={`
+                        absolute bottom-0.5 left-2 text-[5px] tracking-wide
+                        ${theme.isDark ? 'text-white/25' : 'text-black/20'}
+                        z-10
+                    `}>
+                        {author}
+                    </div>
+                )}
                 <div className={`
                     absolute bottom-0.5 right-2 text-[5px] tracking-wide
                     ${theme.isDark ? 'text-white/20' : 'text-black/15'}
                     z-10
                 `}>
-                    {index + 1}/{total}
+                    AutoCard · {index + 1}/{total}
                 </div>
             </div>
 
@@ -314,7 +325,7 @@ const Slide: React.FC<{
     )
 }
 
-const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) => {
+const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title, author }) => {
   const [isZipping, setIsZipping] = useState(false);
   const [isBatchDownloading, setIsBatchDownloading] = useState(false);
   const [batchProgress, setBatchProgress] = useState(0);
@@ -430,6 +441,7 @@ const Preview: React.FC<PreviewProps> = ({ content, theme, fontOption, title }) 
                     index={index}
                     total={slides.length}
                     title={title}
+                    author={author}
                 />
             ))}
 

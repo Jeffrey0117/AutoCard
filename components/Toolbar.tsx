@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Theme, FontFamily } from '../types';
 import { FONTS } from '../constants';
-import { Copy, Sparkles, Type, MessageSquareText, Palette, ChevronDown, X } from 'lucide-react';
+import { Copy, Sparkles, Type, MessageSquareText, Palette, ChevronDown, X, User } from 'lucide-react';
 
 interface ToolbarProps {
   themes: Theme[];
   currentThemeId: string;
   currentFontId: FontFamily;
   title: string;
+  author: string;
   onTitleChange: (title: string) => void;
+  onAuthorChange: (author: string) => void;
   onThemeChange: (id: string) => void;
   onFontChange: (id: FontFamily) => void;
   onToggleAI: () => void;
@@ -29,7 +31,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
   currentThemeId,
   currentFontId,
   title,
+  author,
   onTitleChange,
+  onAuthorChange,
   onThemeChange,
   onFontChange,
   onToggleAI,
@@ -67,6 +71,16 @@ const Toolbar: React.FC<ToolbarProps> = ({
           className="font-semibold text-slate-800 bg-transparent hover:bg-slate-100 focus:bg-white border border-transparent focus:border-slate-300 rounded-lg px-2 py-1 outline-none transition-all w-28 md:w-40 text-sm truncate"
           placeholder="專案名稱"
         />
+        <div className="hidden sm:flex items-center gap-1 text-slate-400">
+          <User className="w-3.5 h-3.5" />
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => onAuthorChange(e.target.value)}
+            className="text-slate-600 bg-transparent hover:bg-slate-100 focus:bg-white border border-transparent focus:border-slate-300 rounded-lg px-1.5 py-1 outline-none transition-all w-24 md:w-32 text-xs"
+            placeholder="作者名稱"
+          />
+        </div>
       </div>
 
       {/* Controls */}
