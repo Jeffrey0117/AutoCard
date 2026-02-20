@@ -145,6 +145,57 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
+// POST /api/suggest-topics - AI suggests 10 topics for a category
+app.post('/api/suggest-topics', async (req, res) => {
+  const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+  const { category } = req.body;
+
+  if (!category) return res.status(400).json({ error: '請提供分類' });
+  if (!DEEPSEEK_API_KEY) return res.status(500).json({ error: 'API Key 未設定' });
+
+  // Read existing pool titles to avoid duplicates
+  const pool = readPool();
+  const existingTitles = pool.map(p => p.title);
+  const avoidList = existingTitles.length > 0
+    ? `\n\n以下主題已經寫過，請避免重複：\n${existingTitles.slice(0, 30).join('、')}`
+    : '';
+
+  try {
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: '你是社群媒體主題策劃專家。回傳 JSON 陣列格式，每項是一個主題字串。只回傳 JSON，不要其他文字。使用繁體中文。' },
+          { role: 'user', content: `請為「${category}」分類推薦 10 個適合做成社群圖文卡片的主題。要具體、有吸引力、適合知識分享型貼文。${avoidList}` }
+        ],
+        temperature: 0.9,
+        max_tokens: 500,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('DeepSeek Suggest Error:', error);
+      return res.status(500).json({ error: '主題推薦失敗' });
+    }
+
+    const data = await response.json();
+    const raw = data.choices?.[0]?.message?.content || '[]';
+    // Extract JSON array from response (handle markdown code blocks)
+    const jsonMatch = raw.match(/\[[\s\S]*\]/);
+    const topics = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
+    return res.json({ topics });
+  } catch (error) {
+    console.error('Suggest Error:', error);
+    return res.status(500).json({ error: '伺服器錯誤' });
+  }
+});
+
 // POST /api/gemini - Gemini AI operations
 app.post('/api/gemini', async (req, res) => {
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
