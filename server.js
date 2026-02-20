@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config({ override: true });
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -234,6 +235,78 @@ app.post('/api/gemini', async (req, res) => {
     console.error('Gemini Error:', error);
     return res.status(500).json({ error: '伺服器錯誤' });
   }
+});
+
+// ===== Content Pool =====
+const POOL_FILE = path.join(__dirname, 'data', 'content-pool.json');
+
+function readPool() {
+  try {
+    if (!fs.existsSync(POOL_FILE)) return [];
+    return JSON.parse(fs.readFileSync(POOL_FILE, 'utf-8'));
+  } catch {
+    return [];
+  }
+}
+
+function writePool(pool) {
+  const dir = path.dirname(POOL_FILE);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(POOL_FILE, JSON.stringify(pool, null, 2), 'utf-8');
+}
+
+// GET /api/pool - list all entries
+app.get('/api/pool', (req, res) => {
+  const pool = readPool();
+  // Return without markdown content for lighter listing
+  const list = pool.map(({ id, title, tags, createdAt, updatedAt }) => ({ id, title, tags, createdAt, updatedAt }));
+  return res.json({ items: list });
+});
+
+// GET /api/pool/:id - get single entry with full content
+app.get('/api/pool/:id', (req, res) => {
+  const pool = readPool();
+  const item = pool.find(p => p.id === req.params.id);
+  if (!item) return res.status(404).json({ error: '找不到內容' });
+  return res.json({ item });
+});
+
+// POST /api/pool - create or update entry
+app.post('/api/pool', (req, res) => {
+  const { title, markdown, tags = [] } = req.body;
+  if (!title || !markdown) return res.status(400).json({ error: '標題和內容為必填' });
+
+  const pool = readPool();
+  const now = new Date().toISOString();
+
+  // Check duplicate by title
+  const existing = pool.find(p => p.title === title);
+  if (existing) {
+    const updated = { ...existing, markdown, tags, updatedAt: now };
+    const newPool = pool.map(p => p.id === existing.id ? updated : p);
+    writePool(newPool);
+    return res.json({ item: updated, isUpdate: true });
+  }
+
+  const item = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    title,
+    markdown,
+    tags,
+    createdAt: now,
+    updatedAt: now,
+  };
+  writePool([item, ...pool]);
+  return res.json({ item, isUpdate: false });
+});
+
+// DELETE /api/pool/:id - delete entry
+app.delete('/api/pool/:id', (req, res) => {
+  const pool = readPool();
+  const newPool = pool.filter(p => p.id !== req.params.id);
+  if (newPool.length === pool.length) return res.status(404).json({ error: '找不到內容' });
+  writePool(newPool);
+  return res.json({ success: true });
 });
 
 // ===== Static Files + SPA Fallback =====

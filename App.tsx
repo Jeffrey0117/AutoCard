@@ -6,8 +6,10 @@ import Toolbar from './components/Toolbar';
 import AIGenerator from './components/AIGenerator';
 import AIPanel from './components/AIPanel';
 import SocialCaptionPanel from './components/SocialCaptionPanel';
+import ContentPoolPanel from './components/ContentPoolPanel';
 import { PanelLeft, PanelRight, ClipboardPaste, Trash2, Layers } from 'lucide-react';
 import { FontFamily } from './types';
+import { getAuthHeaders } from './services/auth';
 
 const App: React.FC = () => {
   const [markdown, setMarkdown] = useState(() => {
@@ -27,7 +29,8 @@ const App: React.FC = () => {
   });
   
   const [showAI, setShowAI] = useState(false);
-  const [showSocial, setShowSocial] = useState(false); // New state
+  const [showSocial, setShowSocial] = useState(false);
+  const [showPool, setShowPool] = useState(false);
   const [showEditor, setShowEditor] = useState(true);
   const [showPreview, setShowPreview] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -56,6 +59,22 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('autocard_author', author);
   }, [author]);
+
+  // Auto-save to content pool (debounced 5s)
+  useEffect(() => {
+    if (!markdown.trim() || markdown === INITIAL_MARKDOWN) return;
+    if (!projectTitle.trim() || projectTitle === 'AutoCard') return;
+
+    const timer = setTimeout(() => {
+      fetch('/api/pool', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify({ title: projectTitle, markdown }),
+      }).catch(() => {});
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [markdown, projectTitle]);
 
   // Handle responsive layout
   useEffect(() => {
@@ -104,6 +123,11 @@ const App: React.FC = () => {
     }
   };
 
+  const handlePoolLoad = (title: string, poolMarkdown: string) => {
+    setProjectTitle(title);
+    setMarkdown(poolMarkdown);
+  };
+
   const toggleView = () => {
     if (showEditor) {
       setShowEditor(false);
@@ -126,8 +150,9 @@ const App: React.FC = () => {
         onAuthorChange={setAuthor}
         onThemeChange={setCurrentThemeId}
         onFontChange={setCurrentFontId}
-        onToggleAI={() => { setShowAI(!showAI); setShowSocial(false); }}
-        onToggleSocial={() => { setShowSocial(!showSocial); setShowAI(false); }}
+        onToggleAI={() => { setShowAI(!showAI); setShowSocial(false); setShowPool(false); }}
+        onToggleSocial={() => { setShowSocial(!showSocial); setShowAI(false); setShowPool(false); }}
+        onTogglePool={() => { setShowPool(!showPool); setShowAI(false); setShowSocial(false); }}
         onCopy={handleCopy}
       />
 
@@ -201,9 +226,16 @@ const App: React.FC = () => {
         )}
 
         {showSocial && (
-          <SocialCaptionPanel 
+          <SocialCaptionPanel
             currentText={markdown}
             onClose={() => setShowSocial(false)}
+          />
+        )}
+
+        {showPool && (
+          <ContentPoolPanel
+            onLoad={handlePoolLoad}
+            onClose={() => setShowPool(false)}
           />
         )}
       </main>

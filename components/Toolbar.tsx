@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Theme, FontFamily } from '../types';
 import { FONTS } from '../constants';
-import { Copy, Sparkles, Type, MessageSquareText, Palette, ChevronDown, X, User } from 'lucide-react';
+import { Copy, Sparkles, Type, MessageSquareText, ChevronDown, X, User, FolderOpen } from 'lucide-react';
 
 interface ToolbarProps {
   themes: Theme[];
@@ -15,6 +15,7 @@ interface ToolbarProps {
   onFontChange: (id: FontFamily) => void;
   onToggleAI: () => void;
   onToggleSocial: () => void;
+  onTogglePool: () => void;
   onCopy: () => void;
 }
 
@@ -38,6 +39,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   onFontChange,
   onToggleAI,
   onToggleSocial,
+  onTogglePool,
   onCopy
 }) => {
   const [openDropdown, setOpenDropdown] = useState<'theme' | 'font' | null>(null);
@@ -182,6 +184,14 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <div className="h-6 w-px bg-slate-200 mx-1" />
 
         {/* Action Buttons */}
+        <button
+          onClick={onTogglePool}
+          className="flex items-center gap-1.5 px-2 sm:px-3 py-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition-colors text-sm font-medium"
+        >
+          <FolderOpen className="w-4 h-4" />
+          <span className="hidden lg:inline">內容庫</span>
+        </button>
+
         <button
           onClick={onToggleSocial}
           className="flex items-center gap-1.5 px-2 sm:px-3 py-2 bg-pink-50 text-pink-600 rounded-lg hover:bg-pink-100 transition-colors text-sm font-medium"
