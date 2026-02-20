@@ -19,8 +19,8 @@ interface ToolbarProps {
 const THEME_NAMES: Record<string, { name: string; desc: string }> = {
   'notebook': { name: '學生筆記', desc: '手寫風格' },
   'grid': { name: '方格紙', desc: '清爽乾淨' },
-  'summer': { name: '夏日微風', desc: '清新自然' },
-  'purple-dream': { name: '紫色夢境', desc: '時尚大膽' },
+  'latte': { name: '奶茶暖調', desc: '溫暖質感' },
+  'midnight': { name: '午夜極簡', desc: '深邃優雅' },
   'editorial': { name: '雜誌風格', desc: '專業質感' },
 };
 

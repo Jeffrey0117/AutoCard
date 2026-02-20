@@ -128,8 +128,11 @@ const Slide: React.FC<{
                 {theme.id === 'grid' && (
                     <div className="absolute top-3 right-3 w-8 h-3 bg-yellow-300/60 rotate-[-5deg] z-0 rounded-sm"></div>
                 )}
-                {theme.id === 'summer' && (
-                    <div className="absolute bottom-0 right-0 w-24 h-24 bg-blue-400/20 rounded-full blur-2xl -mr-8 -mb-8 pointer-events-none"></div>
+                {theme.id === 'latte' && (
+                    <div className="absolute bottom-0 right-0 w-24 h-24 bg-amber-300/20 rounded-full blur-2xl -mr-8 -mb-8 pointer-events-none"></div>
+                )}
+                {theme.id === 'midnight' && (
+                    <div className="absolute top-0 left-0 w-20 h-20 bg-amber-400/10 rounded-full blur-3xl -ml-6 -mt-6 pointer-events-none"></div>
                 )}
 
                 <div
@@ -176,7 +179,7 @@ const Slide: React.FC<{
                                     <strong className={`
                                         font-semibold
                                         ${theme.id === 'notebook' ? 'bg-yellow-200/50 px-0.5' : ''}
-                                        ${theme.id === 'summer' ? 'text-blue-600' : ''}
+                                        ${theme.id === 'latte' ? 'text-amber-700' : ''}
                                     `} {...props} />
                                 ),
                                 blockquote: ({node, ...props}) => (
@@ -213,14 +216,14 @@ const Slide: React.FC<{
                                         <table className={`
                                             min-w-full text-sm border-collapse table-auto
                                             ${theme.id === 'grid' ? 'border-2 border-slate-900' : 'border border-slate-300'}
-                                            ${theme.id === 'purple-dream' ? 'border-white/30 text-white' : ''}
+                                            ${theme.id === 'midnight' ? 'border-white/30 text-white' : ''}
                                         `} {...props} />
                                     </div>
                                 ),
                                 thead: ({node, ...props}) => (
                                     <thead className={`
-                                        ${theme.id === 'summer' ? 'bg-blue-100/50' : 'bg-slate-100/50'}
-                                        ${theme.id === 'purple-dream' ? 'bg-white/10' : ''}
+                                        ${theme.id === 'latte' ? 'bg-amber-100/50' : 'bg-slate-100/50'}
+                                        ${theme.id === 'midnight' ? 'bg-white/10' : ''}
                                         ${theme.id === 'grid' ? 'bg-yellow-50' : ''}
                                     `} {...props} />
                                 ),
@@ -228,21 +231,21 @@ const Slide: React.FC<{
                                     <tr className={`
                                         border-b
                                         ${theme.id === 'grid' ? 'border-slate-900' : 'border-slate-200'}
-                                        ${theme.id === 'purple-dream' ? 'border-white/20' : ''}
+                                        ${theme.id === 'midnight' ? 'border-white/20' : ''}
                                     `} {...props} />
                                 ),
                                 th: ({node, ...props}) => (
                                     <th className={`
                                         p-2 text-left font-bold border-r last:border-r-0
                                         ${theme.id === 'grid' ? 'border-slate-900' : 'border-slate-200'}
-                                        ${theme.id === 'purple-dream' ? 'border-white/20' : ''}
+                                        ${theme.id === 'midnight' ? 'border-white/20' : ''}
                                     `} {...props} />
                                 ),
                                 td: ({node, ...props}) => (
                                     <td className={`
                                         p-2 border-r last:border-r-0
                                         ${theme.id === 'grid' ? 'border-slate-900' : 'border-slate-200'}
-                                        ${theme.id === 'purple-dream' ? 'border-white/20' : ''}
+                                        ${theme.id === 'midnight' ? 'border-white/20' : ''}
                                     `} {...props} />
                                 ),
                                 // --- CODE HANDLING ---
@@ -253,7 +256,7 @@ const Slide: React.FC<{
                                     if (isInline) {
                                         return (
                                             <code className={`
-                                                ${theme.id === 'purple-dream' ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-100'}
+                                                ${theme.id === 'midnight' ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-100'}
                                                 rounded px-1 py-0.5 text-[8px] font-mono
                                             `} {...props}>
                                                 {children}
