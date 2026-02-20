@@ -146,7 +146,7 @@ const Slide: React.FC<{
                     style={{ fontSize: `${fontScale}%` }}
                 >
                     <div className={`
-                        prose prose-xs max-w-none w-full text-[10px] leading-relaxed
+                        prose prose-xs max-w-none w-full text-[13px] leading-relaxed
                         ${theme.proseStyle}
                         ${fontOption.cssValue}
                     `}>
@@ -157,7 +157,7 @@ const Slide: React.FC<{
                                     <h1
                                         className={`
                                             ${theme.headingColor}
-                                            ${isCover ? 'text-base font-black mb-1 leading-tight' : 'text-sm font-bold mt-0 mb-2 leading-snug'}
+                                            ${isCover ? 'text-xl font-black mb-1 leading-tight' : 'text-lg font-bold mt-0 mb-2 leading-snug'}
                                             ${theme.id === 'notebook' ? 'font-marker' : ''}
                                         `}
                                         {...props}
@@ -167,7 +167,7 @@ const Slide: React.FC<{
                                     <h2
                                         className={`
                                             ${theme.headingColor}
-                                            text-xs font-semibold mt-2 mb-1
+                                            text-base font-bold mt-2 mb-1
                                             ${theme.id === 'editorial' ? 'border-l-2 border-slate-900 pl-1.5' : ''}
                                             ${theme.id === 'grid' ? 'bg-yellow-100/80 px-1 rounded' : ''}
                                         `}
@@ -186,7 +186,7 @@ const Slide: React.FC<{
                                 ),
                                 blockquote: ({node, ...props}) => (
                                     <blockquote className={`
-                                        my-2 pl-2 border-l-2 opacity-80 italic text-[9px]
+                                        my-2 pl-2 border-l-2 opacity-80 italic text-[11px]
                                         ${theme.isDark ? 'border-white/30' : 'border-slate-300'}
                                     `} {...props} />
                                 ),
@@ -259,14 +259,14 @@ const Slide: React.FC<{
                                         return (
                                             <code className={`
                                                 ${theme.id === 'midnight' ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-100'}
-                                                rounded px-1 py-0.5 text-[8px] font-mono
+                                                rounded px-1 py-0.5 text-[11px] font-mono
                                             `} {...props}>
                                                 {children}
                                             </code>
                                         );
                                     }
                                     return (
-                                        <pre className="bg-slate-800 text-slate-100 rounded p-2 my-1.5 text-[7px] font-mono leading-relaxed whitespace-pre-wrap break-all">
+                                        <pre className="bg-slate-800 text-slate-100 rounded p-2 my-1.5 text-[10px] font-mono leading-relaxed whitespace-pre-wrap break-all">
                                             <code className={className} {...props}>
                                                 {children}
                                             </code>
