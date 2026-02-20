@@ -209,7 +209,19 @@ app.post('/api/gemini', async (req, res) => {
     const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
     if (action === 'social_caption') {
-      const cleanText = (t) => t.replace(/\*\*/g, '').replace(/\*/g, '').replace(/^#+\s/gm, '').trim();
+      const cleanText = (t) => t
+        .replace(/\*\*/g, '')       // bold **
+        .replace(/\*/g, '')         // italic *
+        .replace(/^#+\s/gm, '')     // headings #
+        .replace(/__/g, '')         // bold __
+        .replace(/_/g, '')          // italic _
+        .replace(/`/g, '')          // code `
+        .replace(/~~(.*?)~~/g, '$1') // strikethrough
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links [text](url)
+        .replace(/^>\s?/gm, '')     // blockquotes
+        .replace(/^[-*+]\s/gm, '')  // list markers
+        .replace(/^\d+\.\s/gm, '') // numbered lists
+        .trim();
       if (isThreadMode) {
         const captions = content.split('|||').map((s) => cleanText(s)).filter((s) => s.length > 0);
         return res.json({ captions });
