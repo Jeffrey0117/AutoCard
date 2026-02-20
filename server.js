@@ -147,7 +147,7 @@ app.post('/api/generate', async (req, res) => {
 // POST /api/gemini - Gemini AI operations
 app.post('/api/gemini', async (req, res) => {
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-  const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+  const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
   const { action, text, topic, isThreadMode } = req.body;
 
   if (!GEMINI_API_KEY) return res.status(500).json({ error: 'API Key 未設定' });
